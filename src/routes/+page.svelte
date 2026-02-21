@@ -82,8 +82,8 @@
 				.single();
 
 			if (roomErr || !room) throw new Error('Room not found. Check the code and try again.');
-			if (room.status !== 'waiting')
-				throw new Error('This room has already started. Ask the host to create a new room.');
+			if (room.status === 'finished')
+				throw new Error('This game has already ended. Ask the host to create a new room.');
 
 			const { data: member, error: memberErr } = await supabase
 				.from('room_members')
@@ -97,7 +97,12 @@
 			sessionStorage.setItem('room_id', room.id);
 			sessionStorage.setItem('is_host', 'false');
 
-			await goto(`/room/${code}`);
+			// If voting already started, jump straight to the vote screen
+			if (room.status === 'active') {
+				await goto(`/room/${code}/vote`);
+			} else {
+				await goto(`/room/${code}`);
+			}
 		} catch (e: unknown) {
 			error = e instanceof Error ? e.message : 'Failed to join room';
 		} finally {

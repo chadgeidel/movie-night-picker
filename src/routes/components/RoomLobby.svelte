@@ -52,7 +52,7 @@
 	{#if isHost}
 		<button
 			onclick={onstart}
-			disabled={starting}
+			disabled={starting || members.length < 2}
 			class="w-full bg-violet-600 hover:bg-violet-500 active:bg-violet-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold rounded-xl py-4 text-lg transition-colors shadow-lg"
 		>
 			{starting ? 'Starting...' : '🍿 Start Voting'}
