@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+/* Prevent text selection during swipe */
+.no-select {
+	user-select: none;
+	-webkit-user-select: none;
+}
